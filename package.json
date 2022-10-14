@@ -1,0 +1,40 @@
+{
+  "name": "auth-frontend",
+  "version": "0.1.0",
+  "description": "Our modular Cognito based Auth portal to login and register users. Returns a JWT token to a redirect URL.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/space-metaverse/auth-frontend.git"
+  },
+  "author": "SPACE",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/space-metaverse/auth-frontend/issues"
+  },
+  "homepage": "https://github.com/space-metaverse/auth-frontend/#readme",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.8.5",
+    "@space-metaverse-ag/space-ui": "^0.2.6",
+    "next": "12.3.1",
+    "next-transpile-modules": "^9.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-redux": "^8.0.4",
+    "styled-components": "^5.3.6"
+  },
+  "devDependencies": {
+    "@types/node": "18.8.0",
+    "@types/react": "18.0.21",
+    "@types/react-dom": "18.0.6",
+    "@types/styled-components": "^5.1.26",
+    "eslint": "8.24.0",
+    "eslint-config-next": "12.3.1",
+    "typescript": "4.8.4"
+  }
+}
