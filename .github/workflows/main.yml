@@ -47,3 +47,4 @@ jobs:
           SUBNET_IDS: ${{ secrets[format('SUBNET_IDS_{0}', github.ref_name)] }}
           LISTNER_ARN: ${{ secrets[format('LISTNER_ARN_{0}', github.ref_name)] }}
           CLUSTER_NAME: ${{ secrets[format('CLUSTER_NAME_{0}', github.ref_name)] }}
+          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
