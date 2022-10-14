@@ -48,3 +48,4 @@ jobs:
           LISTNER_ARN: ${{ secrets[format('LISTNER_ARN_{0}', github.ref_name)] }}
           CLUSTER_NAME: ${{ secrets[format('CLUSTER_NAME_{0}', github.ref_name)] }}
           BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+          ENV_FILE: ${{ secrets[format('ENV_{0}', github.ref_name)] }}
