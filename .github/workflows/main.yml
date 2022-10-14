@@ -50,3 +50,4 @@ jobs:
           CLUSTER_NAME: ${{ secrets[format('CLUSTER_NAME_{0}', github.ref_name)] }}
           BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
           ENV_FILE: ${{ secrets[format('ENV_{0}', github.ref_name)] }}
+          DO_DESTROY: ${{ secrets.DO_DESTROY }}
