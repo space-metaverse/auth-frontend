@@ -29,8 +29,8 @@ jobs:
 
       - name: Terraform Init
         run: |
-          sh ./terraform/build_image.sh
-          sh ./terraform/deploy_infra.sh
+          ./terraform/build_image.sh
+          ./terraform/deploy_infra.sh
         env:
           CI_COMMIT_REF_NAME: ${{ github.ref_name }}
           APP_NAME: ${{ secrets.APP_NAME }}
