@@ -10,6 +10,7 @@ jobs:
       - name: Checkout auth-frontend
         uses: actions/checkout@v3
         with:
+          ref: ${{ github.ref_name }}
           path: '.'
 
       - name: Checkout Terraform
