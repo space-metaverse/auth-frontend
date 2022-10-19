@@ -43,7 +43,6 @@ const AuthMain = () => {
     const [activeTab, setActiveTab] = useState(AuthTabs.Login);
 
     const handleTabChange = useCallback((tab: string) => {
-        console.log("heheheheh");
         setActiveTab((tab as AuthTabs));
     }, []);
 

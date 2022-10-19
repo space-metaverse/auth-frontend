@@ -1,9 +1,9 @@
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 import styled from 'styled-components';
 import { Alert, Button, TextInput } from '@space-metaverse-ag/space-ui';
 import { AuthError, usePostConfirmSignupMutation, usePostSignupMutation } from '../../api/auth';
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
 
-const Form = styled.div`
+const Form = styled.form`
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -27,7 +27,7 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
     const [isConfirming, setIsConfirming] = useState<boolean>(false);
     const [confirmCode, setConfirmCode] = useState<string>('');
 
-    const formRef = useRef<HTMLDivElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const [postSignup, {
         isLoading: isPostSignupLoading,
@@ -57,7 +57,7 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
                 finishSignup();
             }, 5000);
         }
-    }, [isPostConfirmSignupSuccess])
+    }, [isPostConfirmSignupSuccess, finishSignup])
 
     const handleSignup = useCallback(() => {
         if (password === passwordConfirm) {
@@ -74,7 +74,7 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
             username,
             otp: confirmCode,
         })
-    }, [postSignup, username, confirmCode]);
+    }, [postConfirmSignup, username, confirmCode]);
 
     const handleEmail = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setEmail(e.target.value);
@@ -110,10 +110,10 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
     }, [formRef, isConfirming, handleSignup, handleConfirmSignup]);
 
     return (
-        <>
+        <Form ref={formRef}>
             {
                 isConfirming ? (
-                    <Form ref={formRef}>
+                    <>
                         {isPostConfirmSignupSuccess ? (
                             <Message type="success" text="Signup confirmed! Please login." />
                         ) : (
@@ -124,10 +124,14 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
                                     type="text"
                                     value={confirmCode}
                                     onChange={handleConfirmCode}
+                                    autoComplete="off"
                                 />
                                 {
                                     isPostConfirmSignupError && (
-                                        <Message type='error' text={(postConfirmSignupError as AuthError)?.data?.message || 'Error with Confirmation'} />
+                                        <Message
+                                            type='error'
+                                            text={(postConfirmSignupError as AuthError)?.data?.message || 'Error with Confirmation'}
+                                        />
                                     )
                                 }
                                 <Button
@@ -140,9 +144,9 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
                                 />
                             </>
                         )}
-                    </Form>
+                    </>
                 ) : (
-                    <Form ref={formRef}>
+                    <>
                         <TextInput
                             label='Email'
                             placeholder='example@mail.com'
@@ -173,7 +177,10 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
                         />
                         {
                             isPostSignupError && (
-                                <Message type='error' text={(postSignupError as AuthError)?.data?.message || 'Error with Signup'} />
+                                <Message
+                                    type='error'
+                                    text={(postSignupError as AuthError)?.data?.message || 'Error with Signup'}
+                                />
                             )
                         }
                         <Button
@@ -184,10 +191,10 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
                             disabled={isPostSignupLoading || (!username || !password) || (password !== passwordConfirm)}
                             style={{ margin: '0 auto', width: '100%' }}
                         />
-                    </Form>
+                    </>
                 )
             }
-        </>
+        </Form>
     )
 }
 

@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import { Alert, Button, Checkbox, TextInput } from '@space-metaverse-ag/space-ui';
 import { AuthError, usePostLoginMutation } from '../../api/auth';
 
-const Form = styled.div`
+const Form = styled.form`
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
@@ -18,7 +18,7 @@ const LoginForm = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
 
-    const formRef = useRef<HTMLDivElement>(null);
+    const formRef = useRef<HTMLFormElement>(null);
 
     const [postLogin, {
         isLoading: isPostLoginLoading,
@@ -27,8 +27,6 @@ const LoginForm = () => {
         data: postLoginData,
         error: postLoginError
     }] = usePostLoginMutation();
-
-    console.log(postLoginData, postLoginError)
 
     const handleLogin = useCallback(() => {
         postLogin({
@@ -50,16 +48,19 @@ const LoginForm = () => {
         if (isPostLoginSuccess) {
             const token = postLoginData?.AuthenticationResult?.AccessToken;
             const maxAge = postLoginData?.AuthenticationResult?.ExpiresIn;
+            const loginCode = postLoginData?.loginCode;
             if (token) {
                 document.cookie = `token=${token}; path=/; max-age=${maxAge || 3600}; secure;`;
+            }
+            if (loginCode) {
                 const urlSearchParams = new URLSearchParams(window.location.search);
                 const redirect = urlSearchParams.get('redirect');
                 if (redirect) {
-                    window.location.href = redirect;
+                    window.location.href = `${redirect}/?loginCode=${loginCode}`;
                 }
             }
         }
-    }, [isPostLoginSuccess])
+    }, [isPostLoginSuccess, postLoginData?.AuthenticationResult?.AccessToken, postLoginData?.AuthenticationResult?.ExpiresIn, postLoginData?.loginCode])
 
     // hack the form to submit on enter press, we have nested inputs
     useEffect(() => {

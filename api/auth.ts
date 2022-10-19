@@ -32,6 +32,7 @@ interface LoginResponse {
     AuthenticationResult?: AuthenticationResult;
     username?: string;
     groups?: string[];
+    loginCode?: string;
 }
 
 interface CodeDeliveryDetails {
@@ -63,6 +64,18 @@ interface ConfirmSignupResponse {
     CodeDeliveryDetails: CodeDeliveryDetails;
     UserSub: string;
 }
+
+interface VerifyCodeRequest {
+    loginCode: string;
+}
+
+interface VerifyCodeResponse {
+    username: string;
+    token: string;
+}
+
+// https://api.dev.tryspace.com/auth
+// http://localhost:3000/auth
 
 export const authApi = createApi({
     reducerPath: "authApi",
@@ -99,6 +112,15 @@ export const authApi = createApi({
                     otp,
                 }
             })
+        }),
+        postVerifyCode: builder.mutation<VerifyCodeResponse, VerifyCodeRequest>({
+            query: ({ loginCode }) => ({
+                url: "/verifyCode",
+                method: "POST",
+                body: {
+                    loginCode,
+                }
+            })
         })
     })
 });
@@ -106,5 +128,6 @@ export const authApi = createApi({
 export const {
     usePostLoginMutation,
     usePostSignupMutation,
-    usePostConfirmSignupMutation
+    usePostConfirmSignupMutation,
+    usePostVerifyCodeMutation
 } = authApi;
