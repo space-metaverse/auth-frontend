@@ -98,14 +98,15 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
 
     // hack the form to submit on enter press, we have nested inputs
     useEffect(() => {
-        if (formRef?.current) {
+        const ref = formRef.current;
+        if (ref) {
             const keyDownHandler = (event: KeyboardEvent) => {
                 if (event.key === 'Enter') {
                     isConfirming ? handleConfirmSignup() : handleSignup();
                 }
             };
-            formRef.current.addEventListener('keypress', keyDownHandler);
-            return () => formRef.current?.removeEventListener('keypress', keyDownHandler);
+            ref.addEventListener('keypress', keyDownHandler);
+            return () => ref?.removeEventListener('keypress', keyDownHandler);
         }
     }, [formRef, isConfirming, handleSignup, handleConfirmSignup]);
 

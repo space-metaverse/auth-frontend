@@ -17,6 +17,7 @@ const Message = styled(Alert)`
 const LoginForm = () => {
     const [username, setUsername] = useState<string>('');
     const [password, setPassword] = useState<string>('');
+    const [rememberMe, setRememberMe] = useState<boolean>(false);
 
     const formRef = useRef<HTMLFormElement>(null);
 
@@ -43,7 +44,11 @@ const LoginForm = () => {
         setPassword(e.target.value);
     }, []);
 
-    // set the cookie with token if the login was successful
+    const handleRememberMe = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+        setRememberMe(prev => !prev);
+    }, []);
+
+    // if the login was successful: set the cookie with accessToken, redirect the browser with loginCode, set or clear localStorage
     useEffect(() => {
         if (isPostLoginSuccess) {
             const token = postLoginData?.AuthenticationResult?.AccessToken;
@@ -59,19 +64,46 @@ const LoginForm = () => {
                     window.location.href = `${redirect}/?loginCode=${loginCode}`;
                 }
             }
+            if (rememberMe) {
+                window.localStorage.setItem('username', username);
+                window.localStorage.setItem('password', password);
+            } else {
+                window.localStorage.removeItem('username');
+                window.localStorage.removeItem('password');
+            }
         }
-    }, [isPostLoginSuccess, postLoginData?.AuthenticationResult?.AccessToken, postLoginData?.AuthenticationResult?.ExpiresIn, postLoginData?.loginCode])
+    }, [
+        isPostLoginSuccess,
+        postLoginData?.AuthenticationResult?.AccessToken,
+        postLoginData?.AuthenticationResult?.ExpiresIn,
+        postLoginData?.loginCode,
+        rememberMe,
+        username,
+        password
+    ])
+
+    // onload: check localStorage for username / password - "Remember Me" functionality 
+    useEffect(() => {
+        const username = window.localStorage.getItem('username');
+        const password = window.localStorage.getItem('password');
+        if (username && password) {
+            setUsername(username);
+            setPassword(password);
+            setRememberMe(true);
+        }
+    }, [])
 
     // hack the form to submit on enter press, we have nested inputs
     useEffect(() => {
-        if (formRef?.current) {
+        const ref = formRef.current;
+        if (ref) {
             const keyDownHandler = (event: KeyboardEvent) => {
                 if (event.key === 'Enter') {
                     handleLogin()
                 }
             };
-            formRef.current.addEventListener('keypress', keyDownHandler);
-            return () => formRef.current?.removeEventListener('keypress', keyDownHandler);
+            ref.addEventListener('keypress', keyDownHandler);
+            return () => ref?.removeEventListener('keypress', keyDownHandler);
         }
     }, [formRef, handleLogin])
 
@@ -81,12 +113,14 @@ const LoginForm = () => {
                 label='Username'
                 placeholder='Enter your username'
                 onChange={handleUsername}
+                value={username}
             />
             <TextInput
                 label='Password'
                 placeholder='Enter your password'
                 type="password"
                 onChange={handlePassword}
+                value={password}
             />
             {
                 isPostLoginError && (
@@ -98,7 +132,7 @@ const LoginForm = () => {
                     <Message type='success' text={'Login Successful!'} />
                 )
             }
-            <Checkbox label='Remember me' />
+            <Checkbox label='Remember me' onChange={handleRememberMe} isChecked={rememberMe} />
             <Button
                 label="Login"
                 size='medium'

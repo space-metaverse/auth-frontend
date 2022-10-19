@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.8.5",
-    "@space-metaverse-ag/space-ui": "^0.2.10",
+    "@space-metaverse-ag/space-ui": "^0.2.11",
     "next": "12.3.1",
     "next-transpile-modules": "^9.0.0",
     "react": "18.2.0",
