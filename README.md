@@ -39,3 +39,25 @@ However this only works on same domains, we have different environments, user co
 3. POST request the `loginCode` to: `https://auth.dev.tryspace.com/verifyCode` to get the user's  JWT `accessToken` and `username`.
 
 4. Proceed with future API requests in your app using `accessToken` in the `Authorization` header.
+
+#### Code example
+
+``` javascript
+    function login () {
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const loginCode = urlSearchParams.get('loginCode'); // grab the token from URL
+        if (loginCode) {
+            fetch('https://api.dev.tryspace.com/auth/verifyCode', { // send loginCode to auth API
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    loginCode
+                })
+            }).then(res => res.json()).then(data => {
+                console.log(data.accessToken); // your JWT token
+            });
+        }
+    }
+```
