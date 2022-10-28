@@ -1,9 +1,8 @@
+import AuthMain from 'components/auth/AuthMain'
+import SpaceLogo from 'components/SpaceLogo'
 import type { NextPage } from 'next'
 import Head from 'next/head'
 import styled from 'styled-components'
-
-import AuthMain from '../components/auth/AuthMain'
-import SpaceLogo from '../components/SpaceLogo'
 
 const Page = styled.div`
   width: 100%;

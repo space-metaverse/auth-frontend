@@ -1,9 +1,8 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
 
 import { Alert, Button, TextInput } from '@space-metaverse-ag/space-ui'
+import { AuthError, usePostConfirmSignupMutation, usePostSignupMutation } from 'api/auth'
 import styled from 'styled-components'
-
-import { AuthError, usePostConfirmSignupMutation, usePostSignupMutation } from '../../api/auth'
 
 const Form = styled.form`
   gap: 1.5rem;
