@@ -24,7 +24,6 @@ const Home: NextPage = () => {
             <Head>
                 <title>Auth | SPACE</title>
                 <meta name='description' content='Login / Signup into SPACE!' />
-                <link rel='icon' href='/favicon.ico' />
             </Head>
             <Main>
                 <SpaceLogo />
