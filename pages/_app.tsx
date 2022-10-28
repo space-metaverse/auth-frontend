@@ -1,9 +1,11 @@
-import type { AppProps } from 'next/app';
-import { Provider } from "react-redux";
-import { store } from "../redux/store";
-import { ThemeProvider, GlobalStyles } from '@space-metaverse-ag/space-ui';
+import { Provider } from 'react-redux'
 
-function App({ Component, pageProps }: AppProps) {
+import { ThemeProvider, GlobalStyles } from '@space-metaverse-ag/space-ui'
+import type { AppProps } from 'next/app'
+
+import { store } from '../redux/store'
+
+const App: React.FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <Provider store={store}>
       <ThemeProvider>

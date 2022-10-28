@@ -5,7 +5,7 @@ const withTM = transpileModules(['@space-metaverse-ag/space-ui'])
 /**
  * @type {import('next').NextConfig}
  */
- export default withTM({
+export default withTM({
   compiler: {
     styledComponents: true
   },
@@ -14,4 +14,3 @@ const withTM = transpileModules(['@space-metaverse-ag/space-ui'])
 
   reactStrictMode: true
 })
-  

@@ -6,6 +6,20 @@
       "dom.iterable",
       "esnext"
     ],
+    "paths": {
+      "api/*": [
+        "./api/*"
+      ],
+      "redux/*": [
+        "./redux/*"
+      ],
+      "pages/*": [
+        "./pages/*"
+      ],
+      "components/*": [
+        "./components/*"
+      ]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,

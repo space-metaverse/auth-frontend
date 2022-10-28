@@ -1,3 +1,72 @@
 {
-  "extends": "next/core-web-vitals"
+  "env": {
+    "node": true,
+    "es2021": true,
+    "browser": true
+  },
+
+  "root": true,
+
+  "rules": {
+    "no-bitwise": ["error", { "allow": ["~"] }],
+    "space-unary-ops": [2, {
+      "words": true,
+      "nonwords": false
+    }],
+    "react/prop-types": "off",
+    "import-helpers/order-imports": ["warn", {
+      "groups": [
+        "/^react/",
+        "module",
+        "/^@shared/",
+        "/^@core/",
+        "/^@modules/",
+        "/^@configs/",
+        "/^~/",
+        ["parent", "sibling", "index"]
+      ],
+      "alphabetize": { 
+        "order": "asc", 
+        "ignoreCase": true 
+      },
+      "newlinesBetween": "always"
+    }],
+    "import/no-anonymous-default-export": "off",
+    "@typescript-eslint/no-misused-promises": "off",
+    "@typescript-eslint/no-floating-promises": "off",
+    "@typescript-eslint/triple-slash-reference": ["error", { 
+      "lib": "always",
+      "path": "always", 
+      "types": "always"
+    }],
+    "@typescript-eslint/strict-boolean-expressions": "off"
+  },
+
+  "plugins": [
+    "react",
+    "react-hooks",
+    "@typescript-eslint",
+    "eslint-plugin-import-helpers"
+  ],
+
+  "extends": [
+    "next",
+    "plugin:import/typescript",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "standard-with-typescript",
+    "plugin:react-hooks/recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+
+  "parserOptions": {
+    "project": "./tsconfig.json",
+
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  }
 }
