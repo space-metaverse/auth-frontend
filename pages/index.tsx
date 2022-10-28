@@ -13,6 +13,7 @@ const Main = styled.main`
     height: 100%;
     width: 100%;
     display: flex;
+    min-height: 100vh;
     justify-content: center;
     align-items: center;
     background-image: url("auth-background.jpg");

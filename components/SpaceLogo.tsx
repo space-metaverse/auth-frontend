@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Image from 'next/image'
+import Image from 'next/future/image'
 
 const LogoWrapper = styled.div`
     background-color: white;
@@ -18,7 +18,7 @@ const SpaceLogo = () => {
             <Image 
                 src="/space-logo.png"
                 alt="space logo" 
-                width={60}
+                width={70}
                 height={32}
             />
         </LogoWrapper>

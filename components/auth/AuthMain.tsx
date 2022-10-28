@@ -18,7 +18,6 @@ const TopSection = styled.div`
 `;
 
 const WelcomeHeader = styled.div`
-    font-family: Aeroport Bold;
     color: #1B1B1F;
     font-size: 2rem;
     text-align: center;
