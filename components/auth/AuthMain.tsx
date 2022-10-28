@@ -1,36 +1,37 @@
 import { useCallback, useState } from 'react';
 import styled from 'styled-components';
 import { Tabs } from '@space-metaverse-ag/space-ui';
+import { rgba } from '@space-metaverse-ag/space-ui/helpers';
 import LoginForm from './LoginForm';
 import SignupForm from './SignupForm';
 
 const ModalWrapper = styled.div`
-    background-color: white;
-    border-radius: 25px;
     width: 30rem;
-    box-shadow: 0px 48px 48px -48px rgba(0, 0, 0, 0.24);
+    box-shadow: ${({ theme }) => `0px 48px 48px -48px ${rgba(theme.colors.dark[800], '.24')}`};
+    border-radius: ${({ theme }) => theme.radius['2xl']};
+    background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const TopSection = styled.div`
-    background-color: white;
-    border-radius: 25px;
     padding: 2rem 2rem 0 2rem;
+    border-radius: ${({ theme }) => theme.radius['2xl']};
+    background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const WelcomeHeader = styled.div`
-    color: #1B1B1F;
+    color: ${({  theme }) => theme.colors.dark['700']};
     font-size: 2rem;
     text-align: center;
     padding-bottom: 1rem;
 `;
 
 const FormSection = styled.div`
-    background-color: #f7f7f7;
     width: 100%;
     padding: 2rem;
-    border-radius: 0 0 25px 25px;
     display: flex;
+    border-radius: ${({ theme }) => `0 0 ${theme.radius['2xl']} ${theme.radius['2xl']}`};
     flex-direction: column;
+    background-color: ${({  theme }) => theme.colors.dark['100']};
 `;
 
 enum AuthTabs {

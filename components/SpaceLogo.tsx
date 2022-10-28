@@ -1,15 +1,16 @@
 import styled from 'styled-components';
 import Image from 'next/future/image'
+import { rgba } from '@space-metaverse-ag/space-ui/helpers'
 
 const LogoWrapper = styled.div`
-    background-color: white;
-    border-radius: 100px;
-    box-shadow: 0px 48px 48px -48px rgba(0, 0, 0, 0.24);
-    position: absolute;
     top: 1rem;
     left: 1rem;
     padding: 0.5rem;
     display: flex;
+    position: absolute;
+    box-shadow: ${({ theme }) => `0px 48px 48px -48px ${rgba(theme.colors.dark[800], '.24')}`};
+    border-radius: ${({ theme }) => theme.radius['3xl']};
+    background-color: ${({ theme }) => theme.colors.white};
 `;
 
 const SpaceLogo = () => {
@@ -18,8 +19,8 @@ const SpaceLogo = () => {
             <Image 
                 src="/space-logo.png"
                 alt="space logo" 
-                width={70}
-                height={32}
+                width={68}
+                height={28}
             />
         </LogoWrapper>
     )

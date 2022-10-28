@@ -4,9 +4,9 @@ import { Alert, Button, Checkbox, TextInput } from '@space-metaverse-ag/space-ui
 import { AuthError, usePostLoginMutation } from '../../api/auth';
 
 const Form = styled.form`
+    gap: 1.5rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
 `;
 
 const Message = styled(Alert)`

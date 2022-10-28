@@ -5,17 +5,17 @@ import AuthMain from '../components/auth/AuthMain';
 import SpaceLogo from '../components/SpaceLogo';
 
 const Page = styled.div`
-    height: 100%;
     width: 100%;
+    height: 100%;
 `;
 
 const Main = styled.main`
-    height: 100%;
     width: 100%;
+    height: 100%;
     display: flex;
     min-height: 100vh;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
     background-image: url("auth-background.jpg");
 `;
 
