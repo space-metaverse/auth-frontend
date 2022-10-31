@@ -8,32 +8,32 @@ import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
 
 const ModalWrapper = styled.div`
-  width: 30rem;
+  width: 23.625rem;
   box-shadow: ${({ theme }) => `0px 48px 48px -48px ${rgba(theme.colors.dark[800], '.24')}`};
-  border-radius: ${({ theme }) => theme.radius['2xl']};
+  border-radius: ${({ theme }) => theme.radius['3xl']};
   background-color: ${({ theme }) => theme.colors.white};
 `
 
 const TopSection = styled.div`
-  padding: 2rem 2rem 0 2rem;
-  border-radius: ${({ theme }) => theme.radius['2xl']};
+  padding: 1.5rem 2rem 0 2rem;
+  box-shadow: ${({ theme }) => `0px 0px 48px ${rgba(theme.colors.dark['800'], '.24')}`};
+  border-radius: ${({ theme }) => `${theme.radius['3xl']} ${theme.radius['3xl']} 0 0`};
   background-color: ${({ theme }) => theme.colors.white};
 `
 
 const WelcomeHeader = styled.div`
+  ${({ theme }) => theme.fonts.size['2xl']}
   color: ${({ theme }) => theme.colors.dark['700']};
-  font-size: 2rem;
   text-align: center;
-  padding-bottom: 1rem;
+  font-weight: ${({ theme }) => theme.fonts.weight.bold};
+  margin-bottom: 1rem;
 `
 
 const FormSection = styled.div`
   width: 100%;
-  padding: 2rem;
+  padding: 2rem 2rem 3rem 2rem;
   display: flex;
-  border-radius: ${({ theme }) => `0 0 ${theme.radius['2xl']} ${theme.radius['2xl']}`};
   flex-direction: column;
-  background-color: ${({ theme }) => theme.colors.dark['100']};
 `
 
 enum AuthTabs {

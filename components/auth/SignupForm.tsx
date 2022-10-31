@@ -5,7 +5,7 @@ import { AuthError, usePostConfirmSignupMutation, usePostSignupMutation } from '
 import styled from 'styled-components'
 
 const Form = styled.form`
-  gap: 1.5rem;
+  gap: 1rem;
   display: flex;
   flex-direction: column;
 `
@@ -13,6 +13,12 @@ const Form = styled.form`
 const Message = styled(Alert)`
   width: 100%; 
   justify-content: center;
+`
+
+const FormButton = styled(Button)`
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 1rem;
 `
 
 interface SignupFormProps {
@@ -135,13 +141,12 @@ const SignupForm: React.FC<SignupFormProps> = ({ finishSignup }) => {
                           />
                         )
                       }
-                      <Button
+                      <FormButton
                         label="Confirm Code"
                         size='medium'
                         color="blue"
                         onClick={handleConfirmSignup}
                         disabled={isPostConfirmSignupLoading || !confirmCode}
-                        style={{ margin: '0 auto', width: '100%' }}
                       />
                     </>
                     )}
@@ -185,13 +190,12 @@ const SignupForm: React.FC<SignupFormProps> = ({ finishSignup }) => {
                     />
                   )
                 }
-                <Button
+                <FormButton
                   label="Sign-up"
                   size='medium'
                   color="blue"
                   onClick={handleSignup}
                   disabled={isPostSignupLoading || (!username || !password) || (password !== passwordConfirm)}
-                  style={{ margin: '0 auto', width: '100%' }}
                 />
               </>
               )

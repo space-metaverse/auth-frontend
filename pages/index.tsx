@@ -16,6 +16,7 @@ const Main = styled.main`
   min-height: 100vh;
   align-items: center;
   justify-content: center;
+  background-size: cover;
   background-image: url("auth-background.jpg");
 `
 

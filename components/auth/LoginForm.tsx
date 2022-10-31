@@ -5,9 +5,15 @@ import { AuthError, usePostLoginMutation } from 'api/auth'
 import styled from 'styled-components'
 
 const Form = styled.form`
-  gap: 1.5rem;
+  gap: 1rem;
   display: flex;
   flex-direction: column;
+`
+
+const FormButton = styled(Button)`
+  width: 100%;
+  margin: 0 auto;
+  margin-top: 1rem;
 `
 
 const Message = styled(Alert)`
@@ -135,11 +141,10 @@ const LoginForm: React.FC = () => {
         )
       }
       <Checkbox label='Remember me' onChange={handleRememberMe} isChecked={rememberMe} />
-      <Button
+      <FormButton
         label="Login"
         size='medium'
         color="blue"
-        style={{ margin: '0 auto', width: '100%' }}
         onClick={handleLogin}
         disabled={isPostLoginLoading || (!username || !password)}
       />
