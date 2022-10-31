@@ -1,11 +1,25 @@
 {
   "compilerOptions": {
-    "target": "es6",
+    "target": "es5",
     "lib": [
       "dom",
       "dom.iterable",
       "esnext"
     ],
+    "paths": {
+      "api/*": [
+        "./api/*"
+      ],
+      "redux/*": [
+        "./redux/*"
+      ],
+      "pages/*": [
+        "./pages/*"
+      ],
+      "components/*": [
+        "./components/*"
+      ]
+    },
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
@@ -17,14 +31,22 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "jsx": "preserve",
-    "incremental": true
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
   },
-  "include": [
-    "next-env.d.ts",
-    "**/*.ts",
-    "**/*.tsx"
-  ],
   "exclude": [
     "node_modules"
+  ],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "styled.d.ts",
+    "next-env.d.ts",
+    "next.config.mjs",
+    ".next/types/**/*.ts"
   ]
 }

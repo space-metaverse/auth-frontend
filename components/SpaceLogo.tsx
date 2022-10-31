@@ -1,29 +1,27 @@
-import styled from 'styled-components';
+import { rgba } from '@space-metaverse-ag/space-ui/helpers'
 import Image from 'next/future/image'
-import spaceLogo from '../public/space-logo.png';
+import styled from 'styled-components'
 
 const LogoWrapper = styled.div`
-    background-color: white;
-    border-radius: 100px;
-    box-shadow: 0px 48px 48px -48px rgba(0, 0, 0, 0.24);
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    padding: 0.5rem;
-    display: flex;
-`;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.5rem;
+  display: flex;
+  position: absolute;
+  box-shadow: ${({ theme }) => `0px 48px 48px -48px ${rgba(theme.colors.dark[800], '.24')}`};
+  border-radius: ${({ theme }) => theme.radius['3xl']};
+  background-color: ${({ theme }) => theme.colors.white};
+`
 
-const LogoImage = styled(Image)`
-    height: 2rem;
-    width: auto;
-`;
+const SpaceLogo: React.FC = () => (
+  <LogoWrapper>
+    <Image
+      src="/space-logo.png"
+      alt="space logo"
+      width={68}
+      height={28}
+    />
+  </LogoWrapper>
+)
 
-const SpaceLogo = () => {
-    return (
-        <LogoWrapper>
-            <LogoImage src={spaceLogo} alt="space logo" />
-        </LogoWrapper>
-    )
-}
-
-export default SpaceLogo;
+export default SpaceLogo
