@@ -13,7 +13,7 @@ const LogoWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.white};
 `
 
-const SpaceLogo: React.FC = () => (
+const SpaceLogo = () => (
   <LogoWrapper>
     <Image
       src="/space-logo.png"

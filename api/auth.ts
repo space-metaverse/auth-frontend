@@ -53,17 +53,6 @@ interface SignupResponse {
   UserSub?: string
 }
 
-interface ConfirmSignupRequest {
-  username: string
-  otp: string
-}
-
-interface ConfirmSignupResponse {
-  UserConfirmed: boolean
-  CodeDeliveryDetails: CodeDeliveryDetails
-  UserSub: string
-}
-
 interface VerifyCodeRequest {
   loginCode: string
 }
@@ -78,7 +67,7 @@ interface VerifyCodeResponse {
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://api.dev.tryspace.com/auth' }),
+  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3002/auth' }),
   endpoints: (builder) => ({
     postLogin: builder.mutation<LoginResponse, LoginRequest>({
       query: ({ username, password }) => ({
@@ -102,16 +91,6 @@ export const authApi = createApi({
         }
       })
     }),
-    postConfirmSignup: builder.mutation<ConfirmSignupResponse, ConfirmSignupRequest>({
-      query: ({ username, otp }) => ({
-        url: '/confirmSignUp',
-        method: 'POST',
-        body: {
-          username,
-          otp
-        }
-      })
-    }),
     postVerifyCode: builder.mutation<VerifyCodeResponse, VerifyCodeRequest>({
       query: ({ loginCode }) => ({
         url: '/verifyCode',
@@ -127,6 +106,5 @@ export const authApi = createApi({
 export const {
   usePostLoginMutation,
   usePostSignupMutation,
-  usePostConfirmSignupMutation,
   usePostVerifyCodeMutation
 } = authApi

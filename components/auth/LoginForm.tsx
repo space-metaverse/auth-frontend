@@ -1,5 +1,4 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react'
-
 import { Alert, Button, Checkbox, TextInput } from '@space-metaverse-ag/space-ui'
 import { AuthError, usePostLoginMutation } from 'api/auth'
 import styled from 'styled-components'
@@ -21,7 +20,7 @@ const Message = styled(Alert)`
   justify-content: center;
 `
 
-const LoginForm: React.FC = () => {
+const LoginForm = () => {
   const [username, setUsername] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [rememberMe, setRememberMe] = useState<boolean>(false)
@@ -43,17 +42,17 @@ const LoginForm: React.FC = () => {
     })
   }, [postLogin, username, password])
 
-  const handleUsername = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleUsername = (e: ChangeEvent<HTMLInputElement>) => {
     setUsername(e.target.value)
-  }, [])
+  }
 
-  const handlePassword = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handlePassword = (e: ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value)
-  }, [])
+  }
 
-  const handleRememberMe = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleRememberMe = (e: ChangeEvent<HTMLInputElement>) => {
     setRememberMe(prev => !prev)
-  }, [])
+  }
 
   // if the login was successful: set the cookie with accessToken, redirect the browser with loginCode, set or clear localStorage
   useEffect(() => {

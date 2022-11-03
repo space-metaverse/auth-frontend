@@ -1,9 +1,7 @@
-import { useCallback, useState } from 'react'
-
+import { useState } from 'react'
 import { Tabs } from '@space-metaverse-ag/space-ui'
 import { rgba } from '@space-metaverse-ag/space-ui/helpers'
 import styled from 'styled-components'
-
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
 
@@ -41,12 +39,12 @@ enum AuthTabs {
   Signup = 'Signup',
 }
 
-const AuthMain: React.FC = () => {
+const AuthMain = () => {
   const [activeTab, setActiveTab] = useState(AuthTabs.Login)
 
-  const handleTabChange = useCallback((tab: string) => {
+  const handleTabChange = (tab: string) => {
     setActiveTab((tab as AuthTabs))
-  }, [])
+  }
 
   return (
     <ModalWrapper>
