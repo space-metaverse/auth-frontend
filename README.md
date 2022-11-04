@@ -68,7 +68,7 @@ However this only works on same domains, we have different environments, user co
     }
 ```
 
-#### Persistent login with token on reload / future requests example:
+#### Persistent login with verifyToken API on reload / future requests example:
 
 ``` javascript
     async function verifyLogin() {
