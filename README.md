@@ -44,45 +44,51 @@ However this only works on same domains, we have different environments, user co
 #### Initial login with loginCode and verifyCode API example:
 
 ``` javascript
-    function login () {
-        const urlSearchParams = new URLSearchParams(window.location.search);
-        const loginCode = urlSearchParams.get('loginCode'); // grab the token from URL
-        if (loginCode) {
-            fetch('https://api.dev.tryspace.com/auth/verifyCode', { // send loginCode to auth API
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${loginCode}`
-                }
-            }).then(res => res.json()).then(data => {
-                const { immerToken, hubsToken, username } = data;
-                console.log(immerToken, hubsToken, username) // your tokens and username
-                window.localStorage.setItem(immerToken); // save this token for future requests
-            });
+    async function login() {
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const loginCode = urlSearchParams.get('loginCode'); // grab the token from URL
+      if (loginCode) {
+        const authResponse = await fetch('https://api.dev.tryspace.com/auth/verifyCode', { // send loginCode to auth API
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${loginCode}`
+          }
+        });
+        if (authResponse.ok) {
+          const authData = await authResponse.json();
+          localStorage.setItem('immerToken', authData.immerToken); // save the token in localStorage
+          window.location.search = ''; // remove the loginCode from URL
+        } else {
+          console.log('auth failed'); // loginCode is invalid or expired
         }
+      } else {
+        console.log("no loginCode in URL");
+        window.location.href = `https://auth.dev.tryspace.com/?redirect=${window.location.origin}`; // redirect to auth portal
+      }
     }
 ```
 
 #### Persistent login with token on reload / future requests example:
 
 ``` javascript
-    async function verifyLogin () {
-        const immerToken = window.localStorage.getItem("immerToken");
-        if (immerToken) {
-            const authResponse = await fetch('https://api.dev.tryspace.com/auth/verifyToken', { // send immerToken to auth API
-                method: 'GET',
-                headers: {
-                    Authorization: `Bearer ${immerToken}`
-                }
-            });
-            if (authResponse.ok) { // if response 200 OK, then token is verified 
-                const data = await authResponse.json();
-                console.log(data.username); // your user data from token
-            } else {
-                window.localStorage.removeItem("immerToken"); // remove token from local storage, since is invalid
-                login(); // token is not valid anymore, go-to inital login flow
-            }
+    async function verifyLogin() {
+      const immerToken = window.localStorage.getItem("immerToken");
+      if (immerToken) {
+        const authResponse = await fetch('https://api.dev.tryspace.com/auth/verifyToken', { // send immerToken to auth API
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${immerToken}`
+          }
+        });
+        if (authResponse.ok) { // if response 200 OK, then token is verified 
+          const data = await authResponse.json();
+          console.log(data.username); // your user data from token
         } else {
-            login(); // token not in localstorage, go-to inital login flow
+          window.localStorage.removeItem("immerToken"); // remove token from local storage, since is invalid
+          login(); // token is not valid anymore, go-to inital login flow
         }
+      } else {
+        login(); // token not in localstorage, go-to inital login flow
+      }
     }
 ```
