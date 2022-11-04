@@ -36,9 +36,10 @@ However this only works on same domains, we have different environments, user co
 2. After you login, it will redirect back to your app with a `loginCode` in the query string. ex:
 `https://<your-app-url>/?loginCode=<loginCode>`
 
-3. POST request the `loginCode` to: `https://auth.dev.tryspace.com/verifyCode` to get the user's  JWT `accessToken` and `username`.
+3. GET request the `loginCode` in `Authorization: Bearer: ${loginCode}` to: `https://api.dev.tryspace.com/auth/verifyCode`. This will return you:
+`immerToken`, `hubsToken` and `username`.
 
-4. Proceed with future API requests in your app using `accessToken` in the `Authorization` header.
+4. Proceed with future API requests with: `https://api.dev.tryspace.com/auth/verifyToken` GET in your app using `Authorization: Bearer: ${immerToken}`
 
 #### Code example
 
@@ -48,15 +49,13 @@ However this only works on same domains, we have different environments, user co
         const loginCode = urlSearchParams.get('loginCode'); // grab the token from URL
         if (loginCode) {
             fetch('https://api.dev.tryspace.com/auth/verifyCode', { // send loginCode to auth API
-                method: 'POST',
+                method: 'GET',
                 headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    loginCode
-                })
+                    Authorization: `Bearer ${loginCode}`
+                }
             }).then(res => res.json()).then(data => {
-                console.log(data.accessToken); // your JWT token
+                const { immerToken, hubsToken, username } = data;
+                console.log(immerToken, hubsToken, username) // your tokens and username
             });
         }
     }
