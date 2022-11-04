@@ -62,12 +62,24 @@ interface VerifyCodeResponse {
   token: string
 }
 
-// https://api.dev.tryspace.com/auth
-// http://localhost:3000/auth
+function getBaseURL() {
+  switch (process.env.NEXT_PUBLIC_ENV) {
+    case 'local':
+      return 'http://localhost:3002/auth'
+    case 'dev':
+      return 'https://api.dev.tryspace.com/auth'
+    case 'prod':
+      return 'https://api.tryspace.com/auth'
+    default:
+      console.log('No ENV set')
+      return 'https://api.dev.tryspace.com/auth'
+  }
+}
+
 
 export const authApi = createApi({
   reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:3002/auth' }),
+  baseQuery: fetchBaseQuery({ baseUrl: getBaseURL() }),
   endpoints: (builder) => ({
     postLogin: builder.mutation<LoginResponse, LoginRequest>({
       query: ({ username, password }) => ({

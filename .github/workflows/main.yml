@@ -52,3 +52,4 @@ jobs:
           BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
           ENV_FILE: ${{ secrets[format('ENV_{0}', github.ref_name)] }}
           DO_DESTROY: ${{ secrets.DO_DESTROY }}
+          NEXT_ENV_FILE: ${{ secrets[format('NEXT_ENV_{0}', github.ref_name)] }}
