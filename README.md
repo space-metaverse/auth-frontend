@@ -26,7 +26,7 @@ npm run dev
 
 ### Cookie style (unstable, but simple)
 
-If you are on the same domain, you can grab `token` from the Cookie.
+If you are on the same domain, you can grab `immerToken` from the Cookie.
 However this only works on same domains, we have different environments, user could be blocking Cookies, etc.
 
 ### LoginCode Style (stable, but complex)
