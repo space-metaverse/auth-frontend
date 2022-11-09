@@ -1,16 +1,16 @@
-import transpileModules from 'next-transpile-modules'
-
-const withTM = transpileModules(['@space-metaverse-ag/space-ui'])
-
 /**
  * @type {import('next').NextConfig}
  */
-export default withTM({
+export default {
   compiler: {
     styledComponents: true
   },
 
-  swcMinify: true,
+  experimental: {
+    transpilePackages: [
+      '@space-metaverse-ag/space-ui'
+    ]
+  },
 
   reactStrictMode: true
-})
+}

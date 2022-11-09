@@ -1,5 +1,5 @@
 import { rgba } from '@space-metaverse-ag/space-ui/helpers'
-import Image from 'next/future/image'
+import Image from 'next/image'
 import styled from 'styled-components'
 
 const LogoWrapper = styled.div`
