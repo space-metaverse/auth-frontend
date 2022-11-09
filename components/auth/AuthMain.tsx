@@ -50,7 +50,7 @@ const AuthMain = () => {
     <ModalWrapper>
       <TopSection>
         <WelcomeHeader>Welcome to Space</WelcomeHeader>
-        <Tabs tabs={['Login', 'Signup']} onChange={tab => handleTabChange(tab)} activeTab={activeTab} />
+        <Tabs tabs={['Login', 'Signup']} onChange={tab => handleTabChange((tab as string))} activeTab={activeTab} />
       </TopSection>
       <FormSection>
         {activeTab === AuthTabs.Login && <LoginForm />}
