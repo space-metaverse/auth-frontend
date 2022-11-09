@@ -9,28 +9,15 @@
 
   "rules": {
     "no-bitwise": ["error", { "allow": ["~"] }],
+    "@typescript-eslint/quotes": "off",
+    "@typescript-eslint/semi": "off",
+    "@typescript-eslint/comma-dangle": "off",
+    "import-helpers/order-imports": "off",
     "space-unary-ops": [2, {
       "words": true,
       "nonwords": false
     }],
     "react/prop-types": "off",
-    "import-helpers/order-imports": ["warn", {
-      "groups": [
-        "/^react/",
-        "module",
-        "/^@shared/",
-        "/^@core/",
-        "/^@modules/",
-        "/^@configs/",
-        "/^~/",
-        ["parent", "sibling", "index"]
-      ],
-      "alphabetize": { 
-        "order": "asc", 
-        "ignoreCase": true 
-      },
-      "newlinesBetween": "always"
-    }],
     "import/no-anonymous-default-export": "off",
     "@typescript-eslint/no-misused-promises": "off",
     "@typescript-eslint/no-floating-promises": "off",
