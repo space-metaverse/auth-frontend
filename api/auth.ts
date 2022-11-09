@@ -62,6 +62,14 @@ interface VerifyCodeResponse {
   token: string
 }
 
+interface ForgotPasswordRequest {
+  email: string
+}
+
+interface ForgotPasswordResponse {
+  message: string
+}
+
 function getBaseURL() {
   switch (process.env.NEXT_PUBLIC_ENV) {
     case 'local':
@@ -111,6 +119,15 @@ export const authApi = createApi({
           loginCode
         }
       })
+    }),
+    postForgotPassword: builder.mutation<ForgotPasswordResponse, ForgotPasswordRequest>({
+      query: ({ email }) => ({
+        url: '/forgotPassword',
+        method: 'POST',
+        body: {
+          email
+        }
+      })
     })
   })
 })
@@ -118,5 +135,6 @@ export const authApi = createApi({
 export const {
   usePostLoginMutation,
   usePostSignupMutation,
-  usePostVerifyCodeMutation
+  usePostVerifyCodeMutation,
+  usePostForgotPasswordMutation
 } = authApi
