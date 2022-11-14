@@ -17,7 +17,7 @@ import {
 import styled from "styled-components";
 
 interface GeneralMessage {
-  data: { message: string };
+  data: { message: string }
 }
 
 const Form = styled.form`
