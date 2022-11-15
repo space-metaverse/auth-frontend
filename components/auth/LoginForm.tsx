@@ -9,8 +9,16 @@ import {
   Modal,
   type ModalProps,
 } from "@space-metaverse-ag/space-ui";
-import { AuthError, usePostLoginMutation } from "api/auth";
+import {
+  AuthError,
+  usePostForgotPasswordMutation,
+  usePostLoginMutation,
+} from "api/auth";
 import styled from "styled-components";
+
+interface GeneralMessage {
+  data: { message: string }
+}
 
 const Form = styled.form`
   gap: 1rem;
@@ -29,6 +37,11 @@ const Message = styled(Alert)`
   justify-content: center;
 `;
 
+const MessageWithMargin = styled(Message)`
+  margin-top: 12px;
+  margin-bottom: 12px;
+`;
+
 const ForgotLabel = styled(CheckboxStyles.Label)`
   text-decoration: underline;
 `;
@@ -42,6 +55,9 @@ const LoginForm: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
+
+  const [emailForgot, setEmailForgot] = useState<string>("");
+  const [messageForgot, setMessageForgot] = useState<string>("");
 
   const formRef = useRef<HTMLFormElement>(null);
   const modalRef = useRef<ModalProps>(null);
@@ -57,6 +73,15 @@ const LoginForm: React.FC = () => {
       error: postLoginError,
     },
   ] = usePostLoginMutation();
+
+  const [
+    postForgotPassword,
+    {
+      isLoading: isPostForgotPasswordLoading,
+      isSuccess: isPostForgotPasswordSuccess,
+      isError: isPostForgotPasswordError,
+    },
+  ] = usePostForgotPasswordMutation();
 
   const handleLogin = useCallback(async () => {
     await postLogin({
@@ -187,9 +212,17 @@ const LoginForm: React.FC = () => {
 
       <Form
         ref={formModalRef}
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault();
-          alert("sent");
+
+          await postForgotPassword({
+            email: emailForgot,
+          }).then((res) => {
+            setMessageForgot(
+              (res as GeneralMessage)?.data?.message ||
+                (res as { error: GeneralMessage })?.error?.data?.message
+            );
+          });
         }}
       >
         <Modal
@@ -200,6 +233,7 @@ const LoginForm: React.FC = () => {
               label: "Send Reset Password Link",
               size: "large",
               type: "submit",
+              disabled: isPostForgotPasswordLoading,
             },
           }}
           close
@@ -213,7 +247,17 @@ const LoginForm: React.FC = () => {
             required
             placeholder="email@mail.com"
             type="email"
+            disabled={isPostForgotPasswordLoading}
+            value={emailForgot}
+            onChange={(e) => setEmailForgot(e.target.value)}
           />
+
+          {(isPostForgotPasswordSuccess || isPostForgotPasswordError) && (
+            <MessageWithMargin
+              type={isPostForgotPasswordSuccess ? "success" : "error"}
+              text={messageForgot}
+            />
+          )}
         </Modal>
       </Form>
     </>
