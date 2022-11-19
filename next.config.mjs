@@ -12,5 +12,22 @@ export default {
     ]
   },
 
-  reactStrictMode: true
+  reactStrictMode: true,
+  async redirects() {
+    return [ 
+      {
+        source: '/',
+        has: [
+          {
+            type: 'query',
+            key: 'redirect',
+            value: '(?<paramName>.*)'
+          },
+        ],
+        permanent: true,
+        destination: '/login?redirect=:paramName'.replaceAll("%3A",':').replaceAll("%2F", "/"),
+      }
+    ]
+  },
 }
+ 
