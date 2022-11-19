@@ -1,9 +1,11 @@
-import { useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
+
 import { Tabs } from '@space-metaverse-ag/space-ui'
 import { rgba } from '@space-metaverse-ag/space-ui/helpers'
 import styled from 'styled-components'
 import LoginForm from './LoginForm'
 import SignupForm from './SignupForm'
+import { useRouter } from 'next/router'
 
 const ModalWrapper = styled.div`
   width: 23.625rem;
@@ -39,11 +41,16 @@ enum AuthTabs {
   Signup = 'Signup',
 }
 
-const AuthMain = () => {
-  const [activeTab, setActiveTab] = useState(AuthTabs.Login)
+interface Props {
+  selectedTab: String,
+}
+
+const AuthMain: React.FC<Props> = ({ selectedTab }) => {
+  const [activeTab, setActiveTab] = useState(selectedTab as AuthTabs)
+  const router = useRouter() 
 
   const handleTabChange = (tab: string) => {
-    setActiveTab((tab as AuthTabs))
+    router.push(tab.toLowerCase())
   }
 
   return (

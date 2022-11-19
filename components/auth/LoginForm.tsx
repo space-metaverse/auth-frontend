@@ -20,11 +20,14 @@ interface GeneralMessage {
   data: { message: string }
 }
 
+
+import Link from 'next/link'
 const Form = styled.form`
   gap: 1rem;
   display: flex;
   flex-direction: column;
 `;
+ 
 
 const FormButton = styled(Button)`
   width: 100%;
