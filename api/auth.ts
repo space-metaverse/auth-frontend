@@ -45,6 +45,7 @@ interface SignupRequest {
   email: string
   password: string
   phone?: string
+  receiveMarketingEmails?: boolean
 }
 
 interface SignupResponse {
@@ -100,13 +101,14 @@ export const authApi = createApi({
       })
     }),
     postSignup: builder.mutation<SignupResponse, SignupRequest>({
-      query: ({ username, email, password, phone = '' }) => ({
+      query: ({ username, email, password, receiveMarketingEmails, phone = '' }) => ({
         url: '/signup',
         method: 'POST',
         body: {
           username,
           email,
           password,
+          receiveMarketingEmails,
           phone
         }
       })
