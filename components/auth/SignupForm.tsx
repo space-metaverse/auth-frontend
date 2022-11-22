@@ -162,7 +162,7 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
                 target="_blank"
                 rel="noreferrer noopener"
               >
-                Terms and conditions
+                Space Terms
               </a>
             </>
           }
