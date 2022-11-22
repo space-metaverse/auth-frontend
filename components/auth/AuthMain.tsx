@@ -42,11 +42,11 @@ enum AuthTabs {
 }
 
 interface Props {
-  selectedTab: string,
+  selectedTab: string
 }
 
 const AuthMain: React.FC<Props> = ({ selectedTab }) => {
-  const router = useRouter() 
+  const router = useRouter()
 
   const handleTabChange = (tab: string) => {
     router.push(tab.toLowerCase())

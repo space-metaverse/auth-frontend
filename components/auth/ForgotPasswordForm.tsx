@@ -1,4 +1,4 @@
-import {  useRef, useState, useEffect } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import {
   Alert,
   TextInput,
@@ -24,14 +24,11 @@ const MessageWithMargin = styled(Message)`
   margin-bottom: 12px;
 `;
 
-
 interface GeneralMessage {
   data: { message: string }
 }
 
-
 const ForgotPasswordForm: React.FC = () => {
-
   const [emailForgot, setEmailForgot] = useState<string>("");
   const [messageForgot, setMessageForgot] = useState<string>("");
 
@@ -45,7 +42,7 @@ const ForgotPasswordForm: React.FC = () => {
     modalRef.current?.opened()
   }, [])
 
-  const onClose = () => router.push("/login")
+  const onClose = async () => await router.push("/login")
 
   const [
     postForgotPassword,
@@ -84,7 +81,7 @@ const ForgotPasswordForm: React.FC = () => {
           },
         }}
         close
-        outsideClick={forgotPasswordModal ? true : false}
+        outsideClick={!!forgotPasswordModal}
         shadow
         size="small"
         title="Recovery Password"

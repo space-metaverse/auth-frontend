@@ -13,7 +13,7 @@ const Home: NextPage = () => (
       <title>Auth | SPACE</title>
       <meta name='description' content='Login / Signup into SPACE!' />
     </Head>
-    <AuthWrapper  selectedTab="Login"/>
+    <AuthWrapper selectedTab="Login"/>
   </Page>
 )
 

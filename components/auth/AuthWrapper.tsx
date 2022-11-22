@@ -27,9 +27,8 @@ const ModalContainer = styled.div`
 `
 
 interface Props {
-    selectedTab: string,
+    selectedTab: string
 }
-
 
 const AuthWrapper: React.FC<Props> = ({ selectedTab }) => {
     const router = useRouter()

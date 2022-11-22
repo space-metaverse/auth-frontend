@@ -19,7 +19,7 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
 `;
- 
+
 const FormButton = styled(Button)`
   width: 100%;
   margin: 0 auto;
@@ -85,9 +85,8 @@ const LoginForm: React.FC = () => {
       const maxAge = postLoginData?.AuthenticationResult?.ExpiresIn;
       const loginCode = postLoginData?.loginCode;
       if (token) {
-        document.cookie = `token=${token}; path=/; max-age=${
-          maxAge ?? 3600
-        }; secure;`;
+        document.cookie = `token=${token}; path=/; max-age=${maxAge ?? 3600
+          }; secure;`;
       }
       if (loginCode) {
         const urlSearchParams = new URLSearchParams(window.location.search);
@@ -173,7 +172,7 @@ const LoginForm: React.FC = () => {
             onChange={handleRememberMe}
             isChecked={rememberMe}
           />
-          <ForgotLabel onClick={() => router.push("/?forgotPasswordModal=true","/forgotPassword" ,{shallow: true})}>
+          <ForgotLabel onClick={async () => await router.push("/?forgotPasswordModal=true", "/forgotPassword", { shallow: true })}>
             Forgot password?
           </ForgotLabel>
         </RememberAndForgot>
