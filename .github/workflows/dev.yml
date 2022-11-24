@@ -1,4 +1,4 @@
-name: Deploy Auth Frontend
+name: Deploy Auth Frontend Dev
 on:
   push:
     branches: [ dev ]
@@ -49,7 +49,7 @@ jobs:
           SUBNET_IDS: ${{ secrets[format('SUBNET_IDS_{0}', github.ref_name)] }}
           LISTNER_ARN: ${{ secrets[format('LISTNER_ARN_{0}', github.ref_name)] }}
           CLUSTER_NAME: ${{ secrets[format('CLUSTER_NAME_{0}', github.ref_name)] }}
-          BUCKET_NAME: ${{ secrets.BUCKET_NAME }}
+          BUCKET_NAME: ${{ secrets[format('BUCKET_NAME_{0}', github.ref_name)] }}
           ENV_FILE: ${{ secrets[format('ENV_{0}', github.ref_name)] }}
           DO_DESTROY: ${{ secrets.DO_DESTROY }}
           NEXT_ENV_FILE: ${{ secrets[format('NEXT_ENV_{0}', github.ref_name)] }}

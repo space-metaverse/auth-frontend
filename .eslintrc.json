@@ -9,6 +9,8 @@
 
   "rules": {
     "no-bitwise": ["error", { "allow": ["~"] }],
+    "eol-last": "warn",
+    "@typescript-eslint/indent": "warn",
     "@typescript-eslint/quotes": "off",
     "@typescript-eslint/semi": "off",
     "@typescript-eslint/comma-dangle": "off",

@@ -6,20 +6,14 @@ import {
   Checkbox,
   CheckboxStyles,
   TextInput,
-  Modal,
-  type ModalProps,
 } from "@space-metaverse-ag/space-ui";
 import {
   AuthError,
-  usePostForgotPasswordMutation,
   usePostLoginMutation,
 } from "api/auth";
 import styled from "styled-components";
 
-interface GeneralMessage {
-  data: { message: string }
-}
-
+import { useRouter } from "next/router";
 const Form = styled.form`
   gap: 1rem;
   display: flex;
@@ -37,11 +31,6 @@ const Message = styled(Alert)`
   justify-content: center;
 `;
 
-const MessageWithMargin = styled(Message)`
-  margin-top: 12px;
-  margin-bottom: 12px;
-`;
-
 const ForgotLabel = styled(CheckboxStyles.Label)`
   text-decoration: underline;
 `;
@@ -56,13 +45,9 @@ const LoginForm: React.FC = () => {
   const [password, setPassword] = useState<string>("");
   const [rememberMe, setRememberMe] = useState<boolean>(false);
 
-  const [emailForgot, setEmailForgot] = useState<string>("");
-  const [messageForgot, setMessageForgot] = useState<string>("");
-
   const formRef = useRef<HTMLFormElement>(null);
-  const modalRef = useRef<ModalProps>(null);
-  const formModalRef = useRef<HTMLFormElement>(null);
 
+  const router = useRouter()
   const [
     postLogin,
     {
@@ -73,15 +58,6 @@ const LoginForm: React.FC = () => {
       error: postLoginError,
     },
   ] = usePostLoginMutation();
-
-  const [
-    postForgotPassword,
-    {
-      isLoading: isPostForgotPasswordLoading,
-      isSuccess: isPostForgotPasswordSuccess,
-      isError: isPostForgotPasswordError,
-    },
-  ] = usePostForgotPasswordMutation();
 
   const handleLogin = useCallback(async () => {
     await postLogin({
@@ -109,9 +85,8 @@ const LoginForm: React.FC = () => {
       const maxAge = postLoginData?.AuthenticationResult?.ExpiresIn;
       const loginCode = postLoginData?.loginCode;
       if (token) {
-        document.cookie = `token=${token}; path=/; max-age=${
-          maxAge ?? 3600
-        }; secure;`;
+        document.cookie = `token=${token}; path=/; max-age=${maxAge ?? 3600
+          }; secure;`;
       }
       if (loginCode) {
         const urlSearchParams = new URLSearchParams(window.location.search);
@@ -197,7 +172,7 @@ const LoginForm: React.FC = () => {
             onChange={handleRememberMe}
             isChecked={rememberMe}
           />
-          <ForgotLabel onClick={() => modalRef.current?.opened()}>
+          <ForgotLabel onClick={async () => await router.push("/?forgotPasswordModal=true", "/forgotPassword", { shallow: true })}>
             Forgot password?
           </ForgotLabel>
         </RememberAndForgot>
@@ -210,56 +185,6 @@ const LoginForm: React.FC = () => {
         />
       </Form>
 
-      <Form
-        ref={formModalRef}
-        onSubmit={async (e) => {
-          e.preventDefault();
-
-          await postForgotPassword({
-            email: emailForgot,
-          }).then((res) => {
-            setMessageForgot(
-              (res as GeneralMessage)?.data?.message ||
-                (res as { error: GeneralMessage })?.error?.data?.message
-            );
-          });
-        }}
-      >
-        <Modal
-          ref={modalRef}
-          actions={{
-            primary: {
-              color: "blue",
-              label: "Send Reset Password Link",
-              size: "large",
-              type: "submit",
-              disabled: isPostForgotPasswordLoading,
-            },
-          }}
-          close
-          outsideClick
-          shadow
-          size="small"
-          title="Recovery Password"
-        >
-          <TextInput
-            label="Email"
-            required
-            placeholder="email@mail.com"
-            type="email"
-            disabled={isPostForgotPasswordLoading}
-            value={emailForgot}
-            onChange={(e) => setEmailForgot(e.target.value)}
-          />
-
-          {(isPostForgotPasswordSuccess || isPostForgotPasswordError) && (
-            <MessageWithMargin
-              type={isPostForgotPasswordSuccess ? "success" : "error"}
-              text={messageForgot}
-            />
-          )}
-        </Modal>
-      </Form>
     </>
   );
 };
