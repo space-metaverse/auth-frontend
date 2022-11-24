@@ -26,7 +26,7 @@ const FormButton = styled(Button)`
 `;
 
 interface SignupFormProps {
-  finishSignup: () => void;
+  finishSignup: () => void
 }
 
 const SignupForm = ({ finishSignup }: SignupFormProps) => {
