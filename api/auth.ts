@@ -45,6 +45,7 @@ interface SignupRequest {
   email: string
   password: string
   phone?: string
+  receiveMarketingEmails?: boolean
 }
 
 interface SignupResponse {
@@ -76,6 +77,8 @@ function getBaseURL() {
       return 'http://localhost:3002/auth'
     case 'dev':
       return 'https://api.dev.tryspace.com/auth'
+    case 'qa':
+      return 'https://api.qa.tryspace.com/auth'
     case 'prod':
       return 'https://api.tryspace.com/auth'
     default:
@@ -100,13 +103,14 @@ export const authApi = createApi({
       })
     }),
     postSignup: builder.mutation<SignupResponse, SignupRequest>({
-      query: ({ username, email, password, phone = '' }) => ({
+      query: ({ username, email, password, receiveMarketingEmails, phone = '' }) => ({
         url: '/signup',
         method: 'POST',
         body: {
           username,
           email,
           password,
+          receiveMarketingEmails,
           phone
         }
       })
