@@ -27,13 +27,13 @@ const ModalContainer = styled.div`
 `
 
 interface Props {
-    selectedTab: string
+  selectedTab: string
 }
 
 const AuthWrapper: React.FC<Props> = ({ selectedTab }) => {
-    const router = useRouter()
-    const { forgotPasswordModal } = router.query
-    return (
+  const router = useRouter()
+  const { forgotPasswordModal } = router.query
+  return (
         <Main>
             <SpaceLogo />
             {forgotPasswordModal &&
@@ -42,7 +42,7 @@ const AuthWrapper: React.FC<Props> = ({ selectedTab }) => {
                 </ModalContainer>}
             <AuthMain selectedTab={selectedTab} />
         </Main>
-    )
+  )
 }
 
 export default AuthWrapper
