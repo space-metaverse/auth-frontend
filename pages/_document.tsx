@@ -34,7 +34,7 @@ export default class MyDocument extends Document {
   // eslint-disable-next-line
     render () {
     return (
-        <Html lang="pt-BR">
+        <Html lang="en-US">
           <Head>
             <link rel='icon' href='/favicon.ico' />
           </Head>
