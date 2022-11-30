@@ -1,5 +1,3 @@
-import { useState } from 'react'
-
 import { Tabs } from '@space-metaverse-ag/space-ui'
 import { rgba } from '@space-metaverse-ag/space-ui/helpers'
 import styled from 'styled-components'
@@ -46,17 +44,26 @@ interface Props {
 }
 
 const AuthMain: React.FC<Props> = ({ selectedTab }) => {
-  const router = useRouter()
+  const {
+    push,
+    query,
+  } = useRouter()
+
+  console.log(query)
 
   const handleTabChange = (tab: string) => {
-    router.push(tab.toLowerCase())
+    const path = tab.toLowerCase();
+
+    const route = `${path}${query?.redirect ? `?redirect=${query.redirect as string}` : ''}`
+
+    push(route)
   }
 
   return (
     <ModalWrapper>
       <TopSection>
         <WelcomeHeader>Welcome to Space</WelcomeHeader>
-        <Tabs tabs={['Login', 'Signup']} onChange={tab => handleTabChange((tab as string))} activeTab={selectedTab} />
+        <Tabs tabs={['Login', 'Signup']} onChange={tab => handleTabChange(tab)} activeTab={selectedTab} />
       </TopSection>
       <FormSection>
         {selectedTab === AuthTabs.Login && <LoginForm />}
