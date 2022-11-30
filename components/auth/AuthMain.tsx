@@ -61,7 +61,7 @@ const AuthMain: React.FC<Props> = ({ selectedTab }) => {
     <ModalWrapper>
       <TopSection>
         <WelcomeHeader>Welcome to Space</WelcomeHeader>
-        <Tabs tabs={['Login', 'Signup']} onChange={tab => handleTabChange(tab)} activeTab={selectedTab} />
+        <Tabs tabs={['Login', 'Signup']} onChange={tab => handleTabChange((tab as string))} activeTab={selectedTab} />
       </TopSection>
       <FormSection>
         {selectedTab === AuthTabs.Login && <LoginForm />}
