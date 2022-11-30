@@ -4,16 +4,14 @@ import {
   Alert,
   Button,
   Checkbox,
-  CheckboxStyles,
   TextInput,
+  CheckboxStyles,
 } from "@space-metaverse-ag/space-ui";
-import {
-  AuthError,
-  usePostLoginMutation,
-} from "api/auth";
+import { type AuthError, usePostLoginMutation } from "api/auth";
 import styled from "styled-components";
 
 import { useRouter } from "next/router";
+
 const Form = styled.form`
   gap: 1rem;
   display: flex;
@@ -90,9 +88,15 @@ const LoginForm: React.FC = () => {
       }
       if (loginCode) {
         const urlSearchParams = new URLSearchParams(window.location.search);
+
         const redirect = urlSearchParams.get("redirect");
+
         if (redirect) {
-          window.location.href = `${redirect}/?loginCode=${loginCode}`;
+          const decode = decodeURI(redirect)
+
+          const checkForQuery = redirect.includes('?')
+
+          window.location.href = `${decode}${checkForQuery ? '&' : '?'}loginCode=${loginCode}`;
         }
       }
       if (rememberMe) {

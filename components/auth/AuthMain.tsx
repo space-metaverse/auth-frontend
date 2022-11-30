@@ -49,8 +49,6 @@ const AuthMain: React.FC<Props> = ({ selectedTab }) => {
     query,
   } = useRouter()
 
-  console.log(query)
-
   const handleTabChange = (tab: string) => {
     const path = tab.toLowerCase();
 
