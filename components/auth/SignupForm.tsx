@@ -1,12 +1,23 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  type ChangeEvent,
+} from "react";
 import {
   Alert,
   Button,
   Checkbox,
   TextInput,
 } from "@space-metaverse-ag/space-ui";
-import { AuthError, usePostSignupMutation } from "api/auth";
+import analytics from 'services/segment'
+import { type AuthError, type SignupResponse, usePostSignupMutation } from "api/auth";
 import styled from "styled-components";
+
+interface PostSignupProps {
+  data: SignupResponse
+}
 
 const Form = styled.form`
   gap: 1rem;
@@ -59,16 +70,29 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
     }
   }, [isPostSignupSuccess, finishSignup]);
 
-  const handleSignup = useCallback(() => {
+  const handleSignup = useCallback(async () => {
     if (password === passwordConfirm) {
-      postSignup({
-        username,
+      const response = await postSignup({
         email,
+        username,
         password,
         receiveMarketingEmails,
-      });
+      }) as PostSignupProps;
+
+      if (response.data) {
+        analytics.identify({
+          id: response.data.accountId,
+          email,
+          username,
+        })
+
+        analytics.track({
+          id: response.data.accountId,
+          event: 'Signup'
+        })
+      }
     }
-  }, [postSignup, username, email, password, passwordConfirm]);
+  }, [postSignup, username, email, password, passwordConfirm, receiveMarketingEmails]);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);

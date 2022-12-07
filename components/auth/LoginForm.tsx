@@ -1,5 +1,11 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-
+import {
+  useRef,
+  useState,
+  useEffect,
+  useCallback,
+  type ChangeEvent,
+} from "react";
+import analytics from 'services/segment'
 import {
   Alert,
   Button,
@@ -7,10 +13,14 @@ import {
   TextInput,
   CheckboxStyles,
 } from "@space-metaverse-ag/space-ui";
-import { type AuthError, usePostLoginMutation } from "api/auth";
+import { type AuthError, type LoginResponse, usePostLoginMutation } from "api/auth";
 import styled from "styled-components";
 
 import { useRouter } from "next/router";
+
+interface PostLoginProps {
+  data: LoginResponse
+}
 
 const Form = styled.form`
   gap: 1rem;
@@ -49,19 +59,26 @@ const LoginForm: React.FC = () => {
   const [
     postLogin,
     {
-      isLoading: isPostLoginLoading,
-      isSuccess: isPostLoginSuccess,
-      isError: isPostLoginError,
       data: postLoginData,
       error: postLoginError,
+      isError: isPostLoginError,
+      isLoading: isPostLoginLoading,
+      isSuccess: isPostLoginSuccess,
     },
   ] = usePostLoginMutation();
 
   const handleLogin = useCallback(async () => {
-    await postLogin({
+    const response = await postLogin({
       username,
       password,
-    });
+    }) as PostLoginProps;
+
+    if (response.data) {
+      analytics.track({
+        id: response.data.accountId,
+        event: 'SignIn'
+      })
+    }
   }, [postLogin, username, password]);
 
   const handleUsername = useCallback((e: ChangeEvent<HTMLInputElement>) => {

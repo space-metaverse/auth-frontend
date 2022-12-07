@@ -16,6 +16,9 @@
       "pages/*": [
         "./pages/*"
       ],
+      "services/*": [
+        "./services/*"
+      ],
       "components/*": [
         "./components/*"
       ]
