@@ -62,13 +62,13 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
   const handleSignup = useCallback(() => {
     if (password === passwordConfirm) {
       postSignup({
-        username,
         email,
+        username,
         password,
         receiveMarketingEmails,
       });
     }
-  }, [postSignup, username, email, password, passwordConfirm]);
+  }, [postSignup, username, email, password, passwordConfirm, receiveMarketingEmails]);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
