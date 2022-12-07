@@ -26,7 +26,8 @@ interface LoginRequest {
   password: string
 }
 
-interface LoginResponse {
+export interface LoginResponse {
+  accountId: string
   ChallengeParameters?: Record<any, any>
   AuthenticationResult?: AuthenticationResult
   username?: string
@@ -48,7 +49,8 @@ interface SignupRequest {
   receiveMarketingEmails?: boolean
 }
 
-interface SignupResponse {
+export interface SignupResponse {
+  accountId: string
   UserConfirmed?: boolean
   CodeDeliveryDetails?: CodeDeliveryDetails
   UserSub?: string
@@ -71,7 +73,7 @@ interface ForgotPasswordResponse {
   message: string
 }
 
-function getBaseURL() {
+const getBaseURL = () => {
   switch (process.env.NEXT_PUBLIC_ENV) {
     case 'local':
       return 'http://localhost:3002/auth'
@@ -86,7 +88,6 @@ function getBaseURL() {
       return 'https://api.dev.tryspace.com/auth'
   }
 }
-
 
 export const authApi = createApi({
   reducerPath: 'authApi',

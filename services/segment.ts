@@ -7,7 +7,7 @@ interface TrackProps {
 
 interface IdentifyProps {
   id: string
-  name: string
+  name?: string
   email: string
   username: string
 }
