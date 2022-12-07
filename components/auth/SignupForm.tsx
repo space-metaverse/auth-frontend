@@ -47,8 +47,7 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
   const [passwordConfirm, setPasswordConfirm] = useState<string>("");
 
   const [readTerms, setReadTerms] = useState<boolean>(false);
-  const [receiveMarketingEmails, setReceiveMarketingEmails] =
-    useState<boolean>(false);
+  const [receiveMarketingEmails, setReceiveMarketingEmails] = useState<boolean>(false);
 
   const formRef = useRef<HTMLFormElement>(null);
 
@@ -71,7 +70,7 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
   }, [isPostSignupSuccess, finishSignup]);
 
   const handleSignup = useCallback(async () => {
-    if (password === passwordConfirm) {
+    if (password === passwordConfirm && readTerms) {
       const response = await postSignup({
         email,
         username,
@@ -110,16 +109,13 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
     setPasswordConfirm(e.target.value);
   };
 
-  const handleReadTerms = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+  const handleReadTerms = (e: ChangeEvent<HTMLInputElement>) => {
     setReadTerms((prev) => !prev);
-  }, []);
+  };
 
-  const handleReceiveMarketing = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setReceiveMarketingEmails((prev) => !prev);
-    },
-    []
-  );
+  const handleReceiveMarketing = (e: ChangeEvent<HTMLInputElement>) => {
+    setReceiveMarketingEmails((prev) => !prev);
+  };
 
   // hack the form to submit on enter press, we have nested inputs
   useEffect(() => {
@@ -209,7 +205,8 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
           isPostSignupLoading ||
           !username ||
           !password ||
-          password !== passwordConfirm
+          password !== passwordConfirm ||
+          !readTerms
         }
       />
     </Form>
