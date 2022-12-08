@@ -91,7 +91,7 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
         })
       }
     }
-  }, [postSignup, username, email, password, passwordConfirm, receiveMarketingEmails]);
+  }, [postSignup, username, email, password, passwordConfirm, receiveMarketingEmails, readTerms]);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
