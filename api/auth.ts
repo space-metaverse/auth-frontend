@@ -42,10 +42,11 @@ interface CodeDeliveryDetails {
 }
 
 interface SignupRequest {
-  username: string
   email: string
-  password: string
   phone?: string
+  username: string
+  password: string
+  segmentAliasId: number | string
   receiveMarketingEmails?: boolean
 }
 
@@ -104,15 +105,16 @@ export const authApi = createApi({
       })
     }),
     postSignup: builder.mutation<SignupResponse, SignupRequest>({
-      query: ({ username, email, password, receiveMarketingEmails, phone = '' }) => ({
+      query: ({ username, email, password, segmentAliasId, receiveMarketingEmails, phone = '' }) => ({
         url: '/signup',
         method: 'POST',
         body: {
-          username,
+          phone,
           email,
+          username,
           password,
+          segmentAliasId,
           receiveMarketingEmails,
-          phone
         }
       })
     }),

@@ -11,7 +11,7 @@ import {
   Checkbox,
   TextInput,
 } from "@space-metaverse-ag/space-ui";
-import analytics from 'services/segment'
+
 import { type AuthError, type SignupResponse, usePostSignupMutation } from "api/auth";
 import styled from "styled-components";
 
@@ -71,26 +71,19 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
   }, [isPostSignupSuccess, finishSignup]);
 
   const handleSignup = useCallback(async () => {
+    const uid = Date.now();
+
+    const userId = global.analytics.user().id();
+    const anonymousId = global.analytics.user().anonymousId()
+
     if (password === passwordConfirm) {
-      const response = await postSignup({
+      await postSignup({
         email,
         username,
         password,
+        segmentAliasId: userId || anonymousId || uid,
         receiveMarketingEmails,
       }) as PostSignupProps;
-
-      if (response.data) {
-        analytics.identify({
-          id: response.data.accountId,
-          email,
-          username,
-        })
-
-        analytics.track({
-          id: response.data.accountId,
-          event: 'Signup'
-        })
-      }
     }
   }, [postSignup, username, email, password, passwordConfirm, receiveMarketingEmails]);
 

@@ -5,7 +5,7 @@ import {
   useCallback,
   type ChangeEvent,
 } from "react";
-import analytics from 'services/segment'
+
 import {
   Alert,
   Button,
@@ -68,17 +68,10 @@ const LoginForm: React.FC = () => {
   ] = usePostLoginMutation();
 
   const handleLogin = useCallback(async () => {
-    const response = await postLogin({
+    await postLogin({
       username,
       password,
     }) as PostLoginProps;
-
-    if (response.data) {
-      analytics.track({
-        id: response.data.accountId,
-        event: 'SignIn'
-      })
-    }
   }, [postLogin, username, password]);
 
   const handleUsername = useCallback((e: ChangeEvent<HTMLInputElement>) => {
