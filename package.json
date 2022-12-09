@@ -21,8 +21,8 @@
   },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.0",
+    "@segment/snippet": "^4.15.3",
     "@space-metaverse-ag/space-ui": "^0.5.3",
-    "analytics-node": "^6.2.0",
     "next": "13.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
@@ -30,7 +30,6 @@
     "styled-components": "^5.3.6"
   },
   "devDependencies": {
-    "@types/analytics-node": "^3.1.9",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",
     "@types/react-dom": "18.0.8",
