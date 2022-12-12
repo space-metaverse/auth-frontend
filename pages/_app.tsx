@@ -1,10 +1,11 @@
+import "@space-metaverse-ag/space-ui/index.css"
+
 import { Provider } from 'react-redux'
 import { ThemeProvider } from '@space-metaverse-ag/space-ui'
 import type { AppProps } from 'next/app'
 import { store } from 'redux/store'
 import * as snippet from '@segment/snippet'
 import Script from 'next/script'
-import "@space-metaverse-ag/space-ui/index.css"
 
 const analytics = () => {
   const options = {

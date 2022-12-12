@@ -34,16 +34,16 @@ export default class MyDocument extends Document {
   // eslint-disable-next-line
     render () {
     return (
-        <Html lang="en-US">
-          <Head>
-            <link rel='icon' href='/favicon.ico' />
-          </Head>
-          <body style={{ margin: 0 }}>
-            <Main />
+      <Html lang="en-US">
+        <Head>
+          <link rel='icon' href='/favicon.ico' />
+        </Head>
+        <body>
+          <Main />
 
-            <NextScript />
-          </body>
-        </Html>
+          <NextScript />
+        </body>
+      </Html>
     )
   }
 }
