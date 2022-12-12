@@ -158,8 +158,8 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
       return
     }
 
-    const userId = global.analytics.user().id();
-    const anonymousId = global.analytics.user().anonymousId()
+    const userId = global.analytics?.user?.()?.id();
+    const anonymousId = global.analytics?.user?.()?.anonymousId()
 
     if (password === passwordConfirm && readTerms) {
       await postSignup({
