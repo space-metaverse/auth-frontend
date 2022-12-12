@@ -1,5 +1,6 @@
 import {
   useRef,
+  useMemo,
   useState,
   useEffect,
   useCallback,
@@ -11,9 +12,11 @@ import {
   Checkbox,
   TextInput,
 } from "@space-metaverse-ag/space-ui";
-
+import Tooltip from 'components/Tooltip'
+import { Info as IconInfo } from "@space-metaverse-ag/space-ui/icons"
 import { type AuthError, type SignupResponse, usePostSignupMutation } from "api/auth";
 import styled from "styled-components";
+import { useOutsideClick } from "@space-metaverse-ag/space-ui/hooks"
 
 interface PostSignupProps {
   data: SignupResponse
@@ -36,20 +39,69 @@ const FormButton = styled(Button)`
   margin-top: 1rem;
 `;
 
+const WrapperPassword = styled.div`
+  position: relative;
+
+  .password-info {
+    top: -.25rem;
+    right: 0;
+    cursor: pointer;
+    position: absolute;
+
+    path {
+      stroke: ${({ theme }) => theme.colors.dark[600]};
+      transition: ${({ theme }) => theme.transitions.ease};
+    }
+
+    &:hover path {
+      stroke: ${({ theme }) => theme.colors.blue[400]};
+    }
+  }
+`
+
+const rules = [
+  {
+    rule: 'UPPERCASE',
+    label: 'Contain one uppercase letter',
+    checked: false,
+  },
+  {
+    rule: 'LOWERCASE',
+    label: 'Contain one lowercase letter',
+    checked: false,
+  },
+  {
+    rule: 'NUMERIC',
+    label: 'Contain one numeric character',
+    checked: false,
+  },
+  {
+    rule: 'SPECIAL_CHARACTER',
+    label: 'Contain one special character (e.g.  !, %, @, #)',
+    checked: false,
+  },
+  {
+    rule: 'GREATER_THAN_8',
+    label: 'Be at least 8 characters long',
+    checked: false,
+  }
+]
+
 interface SignupFormProps {
   finishSignup: () => void
 }
 
 const SignupForm = ({ finishSignup }: SignupFormProps) => {
-  const [username, setUsername] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  const [passwordConfirm, setPasswordConfirm] = useState<string>("");
-
+  const [email, setEmail] = useState("");
+  const [tooltip, setTooltip] = useState(false)
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [readTerms, setReadTerms] = useState<boolean>(false);
+  const [passwordConfirm, setPasswordConfirm] = useState("");
   const [receiveMarketingEmails, setReceiveMarketingEmails] = useState<boolean>(false);
 
   const formRef = useRef<HTMLFormElement>(null);
+  const passwordRef = useRef<HTMLDivElement>(null);
 
   const [
     postSignup,
@@ -69,8 +121,42 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
     }
   }, [isPostSignupSuccess, finishSignup]);
 
+  const checkRules = useMemo(() => {
+    if (password) {
+      const type = {
+        NUMERIC: /\d/.test(password),
+        UPPERCASE: /[A-Z]/.test(password),
+        LOWERCASE: /[a-z]/.test(password),
+        GREATER_THAN_8: password.length >= 8,
+        SPECIAL_CHARACTER: /\W/.test(password)
+      }
+
+      const check = rules.map(({ rule, ...rest }) => {
+        return ({
+          rule,
+          ...rest,
+          checked: type[rule as keyof typeof type]
+        })
+      })
+
+      return ({
+        rules: check,
+        concluded: check.filter(({ checked }) => checked).length >= 5
+      })
+    }
+
+    return ({
+      rules,
+      concluded: false
+    })
+  }, [password])
+
   const handleSignup = useCallback(async () => {
-    const uid = Date.now();
+    if (!checkRules.concluded) {
+      setTooltip(true)
+
+      return
+    }
 
     const userId = global.analytics.user().id();
     const anonymousId = global.analytics.user().anonymousId()
@@ -80,11 +166,11 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
         email,
         username,
         password,
-        segmentAliasId: userId || anonymousId || uid,
+        segmentAliasId: userId || anonymousId || Date.now(),
         receiveMarketingEmails,
       }) as PostSignupProps;
     }
-  }, [postSignup, username, email, password, passwordConfirm, receiveMarketingEmails, readTerms]);
+  }, [postSignup, username, email, password, passwordConfirm, receiveMarketingEmails, readTerms, checkRules.concluded]);
 
   const handleEmail = (e: ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -124,6 +210,8 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
     }
   }, [formRef, handleSignup]);
 
+  useOutsideClick(passwordRef, () => setTooltip(false))
+
   return (
     <Form ref={formRef}>
       <TextInput
@@ -140,13 +228,27 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
         value={username}
         onChange={handleUsername}
       />
-      <TextInput
-        label="Password"
-        placeholder="Use strong password"
-        type="password"
-        value={password}
-        onChange={handlePassword}
-      />
+      <WrapperPassword ref={passwordRef}>
+        <TextInput
+          label="Password"
+          placeholder="Use strong password"
+          type="password"
+          value={password}
+          onChange={handlePassword}
+        />
+
+        <Tooltip
+          show={tooltip}
+          fields={checkRules.rules}
+        >
+          <IconInfo
+            width={20}
+            height={20}
+            onClick={() => setTooltip((prev) => !prev)}
+            className="password-info"
+          />
+        </Tooltip>
+      </WrapperPassword>
       <TextInput
         label="Re-enter password"
         placeholder="Confirm password"
