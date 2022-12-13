@@ -98,6 +98,7 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
   const [password, setPassword] = useState("");
   const [readTerms, setReadTerms] = useState<boolean>(false);
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const [mismatchPassword, setMismatchPassword] = useState(false);
   const [receiveMarketingEmails, setReceiveMarketingEmails] = useState<boolean>(false);
 
   const formRef = useRef<HTMLFormElement>(null);
@@ -152,16 +153,24 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
   }, [password])
 
   const handleSignup = useCallback(async () => {
+    if (password !== passwordConfirm) {
+      setMismatchPassword(true)
+
+      return;
+    }
+
     if (!checkRules.concluded) {
       setTooltip(true)
 
       return
     }
 
+    setMismatchPassword(false)
+
     const userId = global.analytics?.user?.()?.id();
     const anonymousId = global.analytics?.user?.()?.anonymousId()
 
-    if (password === passwordConfirm && readTerms) {
+    if (readTerms) {
       await postSignup({
         email,
         username,
@@ -256,17 +265,28 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
         value={passwordConfirm}
         onChange={handlePasswordConfirm}
       />
-      {isPostSignupError && (
+
+      {mismatchPassword && (
         <Message
+          text="Passwords do not match"
           type="error"
-          text={
-            (postSignupError as AuthError)?.data?.message ?? "Error with Signup"
-          }
         />
       )}
-      {isPostSignupSuccess && (
-        <Message type="success" text={"Signup successful, please login..."} />
+
+      {isPostSignupError && (
+        <Message
+          text={(postSignupError as AuthError)?.data?.message ?? "Error with Signup"}
+          type="error"
+        />
       )}
+
+      {isPostSignupSuccess && (
+        <Message
+          type="success"
+          text="Signup successful, please login..."
+        />
+      )}
+
       <>
         <Checkbox
           label={
@@ -300,7 +320,7 @@ const SignupForm = ({ finishSignup }: SignupFormProps) => {
           isPostSignupLoading ||
           !username ||
           !password ||
-          password !== passwordConfirm ||
+          !passwordConfirm ||
           !readTerms
         }
       />
