@@ -12,7 +12,7 @@ const Main = styled.main`
     align-items: center;
     justify-content: center;
     background-size: cover;
-    background-image: url("auth-background.jpg");
+    background-image: url("auth-background.png");
 `
 
 const ModalContainer = styled.div`
