@@ -33,6 +33,7 @@ export interface LoginResponse {
   username?: string
   groups?: string[]
   loginCode?: string
+  immerToken: string
 }
 
 interface CodeDeliveryDetails {
