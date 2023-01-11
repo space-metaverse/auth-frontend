@@ -92,6 +92,8 @@ const LoginForm: React.FC = () => {
       const token = postLoginData?.AuthenticationResult?.AccessToken;
       const maxAge = postLoginData?.AuthenticationResult?.ExpiresIn;
       const loginCode = postLoginData?.loginCode;
+      const immerToken = postLoginData?.immerToken as string;
+
       if (token) {
         document.cookie = `token=${token}; path=/; max-age=${maxAge ?? 3600
           }; secure;`;
@@ -112,19 +114,19 @@ const LoginForm: React.FC = () => {
       if (rememberMe) {
         window.localStorage.setItem("username", username);
         window.localStorage.setItem("password", password);
+        window.localStorage.setItem("immerToken", immerToken)
       } else {
         window.localStorage.removeItem("username");
         window.localStorage.removeItem("password");
+        window.localStorage.removeItem("immerToken")
       }
     }
   }, [
-    isPostLoginSuccess,
-    postLoginData?.AuthenticationResult?.AccessToken,
-    postLoginData?.AuthenticationResult?.ExpiresIn,
-    postLoginData?.loginCode,
-    rememberMe,
     username,
     password,
+    rememberMe,
+    postLoginData,
+    isPostLoginSuccess,
   ]);
 
   // onload: check localStorage for username / password - "Remember Me" functionality
