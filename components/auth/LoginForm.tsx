@@ -15,6 +15,7 @@ import {
 } from "@space-metaverse-ag/space-ui";
 import { type AuthError, type LoginResponse, usePostLoginMutation } from "api/auth";
 import styled from "styled-components";
+import { setCookie, destroyCookie } from 'nookies'
 
 import { useRouter } from "next/router";
 
@@ -114,11 +115,13 @@ const LoginForm: React.FC = () => {
       if (rememberMe) {
         window.localStorage.setItem("username", username);
         window.localStorage.setItem("password", password);
-        window.localStorage.setItem("immerToken", immerToken)
+        setCookie(null, 'immerToken', immerToken, {
+          domain: 'tryspace.com',
+        })
       } else {
         window.localStorage.removeItem("username");
         window.localStorage.removeItem("password");
-        window.localStorage.removeItem("immerToken")
+        destroyCookie(null, 'immerToken')
       }
     }
   }, [
