@@ -15,6 +15,7 @@ import {
 } from "@space-metaverse-ag/space-ui";
 import { type AuthError, type LoginResponse, usePostLoginMutation } from "api/auth";
 import styled from "styled-components";
+import { setCookie, destroyCookie } from 'nookies'
 
 import { useRouter } from "next/router";
 
@@ -92,6 +93,8 @@ const LoginForm: React.FC = () => {
       const token = postLoginData?.AuthenticationResult?.AccessToken;
       const maxAge = postLoginData?.AuthenticationResult?.ExpiresIn;
       const loginCode = postLoginData?.loginCode;
+      const immerToken = postLoginData?.immerToken as string;
+
       if (token) {
         document.cookie = `token=${token}; path=/; max-age=${maxAge ?? 3600
           }; secure;`;
@@ -112,19 +115,21 @@ const LoginForm: React.FC = () => {
       if (rememberMe) {
         window.localStorage.setItem("username", username);
         window.localStorage.setItem("password", password);
+        setCookie(null, 'immerToken', immerToken, {
+          domain: 'tryspace.com',
+        })
       } else {
         window.localStorage.removeItem("username");
         window.localStorage.removeItem("password");
+        destroyCookie(null, 'immerToken')
       }
     }
   }, [
-    isPostLoginSuccess,
-    postLoginData?.AuthenticationResult?.AccessToken,
-    postLoginData?.AuthenticationResult?.ExpiresIn,
-    postLoginData?.loginCode,
-    rememberMe,
     username,
     password,
+    rememberMe,
+    postLoginData,
+    isPostLoginSuccess,
   ]);
 
   // onload: check localStorage for username / password - "Remember Me" functionality
