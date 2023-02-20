@@ -75,6 +75,15 @@ interface ForgotPasswordResponse {
   message: string
 }
 
+interface ResetPasswordRequest {
+  username: string
+  password: string
+  token: string
+}
+interface ResetPasswordResponse {
+  message: string
+}
+
 const getBaseURL = () => {
   switch (process.env.NEXT_PUBLIC_ENV) {
     case 'local':
@@ -136,6 +145,13 @@ export const authApi = createApi({
           email
         }
       })
+    }),
+    postResetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordRequest>({
+      query: (body) => ({
+        url: '/resetPassword',
+        method: 'POST',
+        body
+      })
     })
   })
 })
@@ -144,5 +160,6 @@ export const {
   usePostLoginMutation,
   usePostSignupMutation,
   usePostVerifyCodeMutation,
-  usePostForgotPasswordMutation
+  usePostForgotPasswordMutation,
+  usePostResetPasswordMutation,
 } = authApi
