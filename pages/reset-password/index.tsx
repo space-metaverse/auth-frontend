@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import SpaceLogo from "components/SpaceLogo";
-import ForgotPasswordForm from 'components/auth/ForgotPasswordForm';
+import ResetPasswordForm from 'components/auth/ResetPasswordForm';
 
 const Main = styled.main`
     width: 100%;
@@ -17,7 +17,7 @@ const ForgotPassword: React.FC = () => {
     return (
         <Main>
             <SpaceLogo />
-            <ForgotPasswordForm />
+            <ResetPasswordForm />
         </Main>
     )
 }
