@@ -116,7 +116,7 @@ const ResetPasswordForm = () => {
     {
       isLoading,
       isSuccess: isRequestSuccess,
-      isError: isRquestError,
+      isError: isRequestError,
       error: requestError,
     },
   ] = usePostResetPasswordMutation();
@@ -257,7 +257,7 @@ const ResetPasswordForm = () => {
           <Message text="Passwords do not match" type="error" />
         )}
 
-        {isRquestError && (
+        {isRequestError && (
           <Message
             text={
               (requestError as AuthError)?.data?.message ?? "Error with Signup"
