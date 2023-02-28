@@ -49,7 +49,7 @@ const RememberAndForgot = styled.div`
   justify-content: space-between;
 `;
 
-function getCookieDomain(): string {
+function getCookieDomain (): string {
   switch (process.env.NEXT_PUBLIC_ENV) {
     case 'local':
       return 'localhost'
