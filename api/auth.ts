@@ -28,12 +28,10 @@ interface LoginRequest {
 
 export interface LoginResponse {
   accountId: string
-  ChallengeParameters?: Record<any, any>
-  AuthenticationResult?: AuthenticationResult
-  username?: string
-  groups?: string[]
   loginCode?: string
   immerToken: string
+  hubsToken: string
+  message?: string
 }
 
 interface CodeDeliveryDetails {
@@ -72,6 +70,15 @@ interface ForgotPasswordRequest {
 }
 
 interface ForgotPasswordResponse {
+  message: string
+}
+
+interface ResetPasswordRequest {
+  username: string
+  password: string
+  token: string
+}
+interface ResetPasswordResponse {
   message: string
 }
 
@@ -136,6 +143,13 @@ export const authApi = createApi({
           email
         }
       })
+    }),
+    postResetPassword: builder.mutation<ResetPasswordResponse, ResetPasswordRequest>({
+      query: (body) => ({
+        url: '/resetPassword',
+        method: 'POST',
+        body
+      })
     })
   })
 })
@@ -144,5 +158,6 @@ export const {
   usePostLoginMutation,
   usePostSignupMutation,
   usePostVerifyCodeMutation,
-  usePostForgotPasswordMutation
+  usePostForgotPasswordMutation,
+  usePostResetPasswordMutation,
 } = authApi
