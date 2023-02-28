@@ -49,7 +49,7 @@ const RememberAndForgot = styled.div`
   justify-content: space-between;
 `;
 
-function getCookieDomain (): string {
+function getCookieDomain(): string {
   switch (process.env.NEXT_PUBLIC_ENV) {
     case 'local':
       return 'localhost'
@@ -106,14 +106,17 @@ const LoginForm: React.FC = () => {
   // if the login was successful: set the cookie with accessToken, redirect the browser with loginCode, set or clear localStorage
   useEffect(() => {
     if (isPostLoginSuccess) {
-      const token = postLoginData?.AuthenticationResult?.AccessToken;
-      const maxAge = postLoginData?.AuthenticationResult?.ExpiresIn;
       const loginCode = postLoginData?.loginCode;
       const immerToken = postLoginData?.immerToken as string;
+      const hubsToken = postLoginData?.hubsToken as string;
 
-      if (token) {
-        document.cookie = `token=${token}; path=/; max-age=${maxAge ?? 3600
-          }; secure;`;
+      if (immerToken && hubsToken) {
+        setCookie(null, 'immerToken', immerToken, {
+          domain: getCookieDomain(),
+        })
+        setCookie(null, 'hubsToken', hubsToken, {
+          domain: getCookieDomain(),
+        })
       }
       if (loginCode) {
         const urlSearchParams = new URLSearchParams(window.location.search);
@@ -131,9 +134,6 @@ const LoginForm: React.FC = () => {
       if (rememberMe) {
         window.localStorage.setItem("username", username);
         window.localStorage.setItem("password", password);
-        setCookie(null, 'immerToken', immerToken, {
-          domain: getCookieDomain(),
-        })
       } else {
         window.localStorage.removeItem("username");
         window.localStorage.removeItem("password");
