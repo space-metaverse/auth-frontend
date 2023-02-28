@@ -28,12 +28,10 @@ interface LoginRequest {
 
 export interface LoginResponse {
   accountId: string
-  ChallengeParameters?: Record<any, any>
-  AuthenticationResult?: AuthenticationResult
-  username?: string
-  groups?: string[]
   loginCode?: string
   immerToken: string
+  hubsToken: string
+  message?: string
 }
 
 interface CodeDeliveryDetails {
