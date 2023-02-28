@@ -49,6 +49,22 @@ const RememberAndForgot = styled.div`
   justify-content: space-between;
 `;
 
+function getCookieDomain(): string {
+  switch (process.env.NEXT_PUBLIC_ENV) {
+    case 'local':
+      return 'localhost'
+    case 'dev':
+      return 'dev.tryspace.com'
+    case 'qa':
+      return 'qa.tryspace.com'
+    case 'prod':
+      return 'tryspace.com'
+    default:
+      console.log('No ENV set')
+      return 'dev.tryspace.com'
+  }
+}
+
 const LoginForm: React.FC = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -116,7 +132,7 @@ const LoginForm: React.FC = () => {
         window.localStorage.setItem("username", username);
         window.localStorage.setItem("password", password);
         setCookie(null, 'immerToken', immerToken, {
-          domain: 'tryspace.com',
+          domain: getCookieDomain(),
         })
       } else {
         window.localStorage.removeItem("username");
