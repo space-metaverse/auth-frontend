@@ -3,14 +3,11 @@
  */
 export default {
   compiler: {
-    styledComponents: true
+    styledComponents: true,
   },
-
-  experimental: {
-    transpilePackages: [
-      '@space-metaverse-ag/space-ui'
-    ]
-  },
+  transpilePackages: [
+    '@space-metaverse-ag/space-ui'
+  ],
 
   reactStrictMode: true,
   async redirects() {
